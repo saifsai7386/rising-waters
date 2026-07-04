@@ -69,8 +69,7 @@ hypothesis/
 Thumbs.db
 
 # Data and models
-/data/
-/models/
-*.save
+# The app needs the dataset and model bundle to run from the repo
+# Keep other large model artifacts ignored by extension
 *.h5
 *.ckpt
