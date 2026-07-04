@@ -32,6 +32,10 @@ MONTH_MEANS = {
 }
 MONTH_STD = {m: max(v * 0.35, 5) for m, v in MONTH_MEANS.items()}
 
+# Cloud visibility in km, lower values usually reflect stormier conditions
+CLOUD_VISIBILITY_MEAN = 8.0
+CLOUD_VISIBILITY_STD = 1.2
+
 SUBDIVISIONS = [
     "COASTAL REGION", "HILLY REGION", "PLAINS REGION",
     "NORTH ZONE", "SOUTH ZONE"
@@ -55,17 +59,28 @@ def generate():
                 monthly_values[m] = round(val, 1)
 
             annual = round(sum(monthly_values.values()), 1)
-
-            # Flood logic: driven mainly by monsoon months (JUN-SEP) + annual total,
-            # with some random noise so it isn't a trivial deterministic rule.
             monsoon_total = sum(monthly_values[m] for m in ["JUN", "JUL", "AUG", "SEP"])
+
+            # Lower visibility often accompanies heavier rainfall and cloudy weather.
+            cloud_vis = float(np.clip(
+                np.random.normal(CLOUD_VISIBILITY_MEAN, CLOUD_VISIBILITY_STD),
+                2.0,
+                10.0,
+            ))
+            cloud_vis = round(cloud_vis - (monsoon_total / 3200) * 2.5, 1)
+            cloud_vis = float(np.clip(cloud_vis, 1.0, 10.0))
+
+            # Flood logic: driven mainly by monsoon months (JUN-SEP), annual total,
+            # and reduced cloud visibility to reflect stormy conditions.
             flood_score = (
-                0.55 * (monsoon_total / 2200)
-                + 0.30 * (annual / 3200)
-                + 0.15 * np.random.uniform(0, 1)
+                0.50 * (monsoon_total / 2200)
+                + 0.25 * (annual / 3200)
+                + 0.15 * ((10.0 - cloud_vis) / 9.0)
+                + 0.10 * np.random.uniform(0, 1)
             )
             row = {"SUBDIVISION": subdivision, "YEAR": year, **monthly_values,
-                   "ANNUAL": annual, "_flood_score": flood_score}
+                   "ANNUAL": annual, "CLOUD_VISIBILITY": cloud_vis,
+                   "_flood_score": flood_score}
             rows.append(row)
 
     df = pd.DataFrame(rows)
@@ -78,7 +93,7 @@ def generate():
 
     # Inject a small amount of realistic messiness: missing values + a couple outliers
     rng = np.random.RandomState(7)
-    for col in ["JUN", "JUL", "AUG", "ANNUAL"]:
+    for col in ["JUN", "JUL", "AUG", "ANNUAL", "CLOUD_VISIBILITY"]:
         missing_idx = rng.choice(df.index, size=max(1, len(df) // 60), replace=False)
         df.loc[missing_idx, col] = np.nan
 

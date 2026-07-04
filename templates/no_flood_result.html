@@ -53,6 +53,7 @@
               <th>{{ month }}</th>
             {% endfor %}
             <th>ANNUAL</th>
+            <th>CLOUD VISIBILITY</th>
           </tr>
         </thead>
         <tbody>
@@ -61,6 +62,7 @@
               <td>{{ inputs[month] }}</td>
             {% endfor %}
             <td>{{ inputs["ANNUAL"] }}</td>
+            <td>{{ inputs["CLOUD_VISIBILITY"] }} km</td>
           </tr>
         </tbody>
       </table>

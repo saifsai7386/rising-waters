@@ -18,7 +18,7 @@
 
     <section class="hero" style="padding-bottom: 0;">
       <div class="eyebrow">Prediction input</div>
-      <h1 class="title">Enter monthly rainfall (mm)</h1>
+      <h1 class="title">Enter rainfall and cloud visibility</h1>
       <p class="subtitle">Use figures from a weather station or forecast. Annual total is calculated automatically.</p>
     </section>
 
@@ -27,7 +27,7 @@
         <div class="error-box">{{ error }}</div>
       {% endif %}
 
-      <div class="hint">All 12 fields are required. Values are in millimetres (mm) of rainfall.</div>
+      <div class="hint">All 12 rainfall values and cloud visibility are required. Rainfall is in millimetres (mm); visibility is in kilometres (km).</div>
 
       <form method="POST" action="/predict">
         <div class="grid-months">
@@ -37,6 +37,11 @@
             <input type="number" step="0.1" min="0" id="{{ m }}" name="{{ m }}" placeholder="0.0" required />
           </div>
           {% endfor %}
+        </div>
+
+        <div class="field">
+          <label for="CLOUD_VISIBILITY">Cloud visibility (km)</label>
+          <input type="number" step="0.1" min="0" id="CLOUD_VISIBILITY" name="CLOUD_VISIBILITY" placeholder="8.0" required />
         </div>
 
         <div class="form-actions">

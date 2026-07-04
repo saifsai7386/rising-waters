@@ -16,7 +16,7 @@ from sklearn.model_selection import train_test_split
 
 MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
           "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
-FEATURE_COLS = MONTHS + ["ANNUAL"]  # SUBDIVISION/YEAR excluded from model features
+FEATURE_COLS = MONTHS + ["ANNUAL", "CLOUD_VISIBILITY"]  # SUBDIVISION/YEAR excluded from model features
 TARGET_COL = "FLOODS"
 
 

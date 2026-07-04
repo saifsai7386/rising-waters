@@ -11,6 +11,7 @@ import csv
 import io
 import pickle
 import numpy as np
+import pandas as pd
 from datetime import datetime
 from flask import Flask, render_template, request, session, Response, url_for, redirect
 
@@ -149,8 +150,12 @@ def predict():
             val = float(request.form.get(month, 0))
             monthly_values.append(val)
 
+        cloud_visibility = float(request.form.get("CLOUD_VISIBILITY", 0))
         annual = sum(monthly_values)
-        features = np.array(monthly_values + [annual]).reshape(1, -1)
+        features = pd.DataFrame(
+            [monthly_values + [annual, cloud_visibility]],
+            columns=feature_cols,
+        )
         features_scaled = scaler.transform(features)
 
         prediction = model.predict(features_scaled)[0]
@@ -159,6 +164,7 @@ def predict():
 
         input_summary = dict(zip(MONTHS, monthly_values))
         input_summary["ANNUAL"] = round(annual, 2)
+        input_summary["CLOUD_VISIBILITY"] = round(cloud_visibility, 1)
         month_risks = get_likely_flood_months(monthly_values)
         risk_band = build_risk_band(prediction, confidence, annual)
         rainfall_summary = build_rainfall_summary(monthly_values)
