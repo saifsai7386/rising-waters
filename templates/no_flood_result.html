@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>No Flood Chance — Rising Waters</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav">
+      <div class="brand"><span class="mark"></span> Rising Waters</div>
+      <div>
+        <a class="navlink" href="/">Home</a>
+        <a class="navlink" href="/predict">Check Risk</a>
+      </div>
+    </nav>
+
+    <section class="result-wrap">
+      <span class="badge safe">No flood chance</span>
+
+      <div class="gauge safe" style="margin-bottom: 30px;">
+        <div class="fill" style="height: {{ confidence }}%;"></div>
+        <div class="readout">
+          <div class="num">{{ confidence }}%</div>
+          <div class="label">Model confidence</div>
+        </div>
+      </div>
+
+      <h1 class="result-headline">These readings look within safe range.</h1>
+      <p class="result-sub">
+        {{ model_name }} did not detect a flood-prone rainfall pattern in
+        this reading. Conditions can still shift, so it's worth checking
+        back if forecasts change.
+      </p>
+
+      <div class="advice-panel">
+        <h3>Good practice either way</h3>
+        <ul>
+          <li>Keep an eye on official rainfall forecasts through the season.</li>
+          <li>Ensure drainage around your property is clear ahead of heavier months.</li>
+          <li>Re-run this check if new rainfall data comes in for the month.</li>
+        </ul>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            {% for month in ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"] %}
+              <th>{{ month }}</th>
+            {% endfor %}
+            <th>ANNUAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% for month in ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"] %}
+              <td>{{ inputs[month] }}</td>
+            {% endfor %}
+            <td>{{ inputs["ANNUAL"] }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <a class="btn btn-primary" href="/predict">Run another check →</a>
+    </section>
+
+    <footer>Rising Waters — a Machine Learning flood prediction project · Python · Flask · scikit-learn · XGBoost</footer>
+  </div>
+</body>
+</html>

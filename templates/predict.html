@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Check Flood Risk — Rising Waters</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav">
+      <div class="brand"><span class="mark"></span> Rising Waters</div>
+      <div>
+        <a class="navlink" href="/">Home</a>
+        <a class="navlink" href="/predict">Check Risk</a>
+      </div>
+    </nav>
+
+    <section class="hero" style="padding-bottom: 0;">
+      <div class="eyebrow">Prediction input</div>
+      <h1 class="title">Enter monthly rainfall (mm)</h1>
+      <p class="subtitle">Use figures from a weather station or forecast. Annual total is calculated automatically.</p>
+    </section>
+
+    <div class="form-panel">
+      {% if error %}
+        <div class="error-box">{{ error }}</div>
+      {% endif %}
+
+      <div class="hint">All 12 fields are required. Values are in millimetres (mm) of rainfall.</div>
+
+      <form method="POST" action="/predict">
+        <div class="grid-months">
+          {% for m in months %}
+          <div class="field">
+            <label for="{{ m }}">{{ m }}</label>
+            <input type="number" step="0.1" min="0" id="{{ m }}" name="{{ m }}" placeholder="0.0" required />
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="form-actions">
+          <a class="btn btn-ghost" href="/">← Back home</a>
+          <button type="submit" class="btn btn-primary">Predict flood chance →</button>
+        </div>
+      </form>
+    </div>
+
+    <footer>Rising Waters — a Machine Learning flood prediction project · Python · Flask · scikit-learn · XGBoost</footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rising Waters — Flood Risk Prediction</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav">
+      <div class="brand"><span class="mark"></span> Rising Waters</div>
+      <div>
+        <a class="navlink" href="/">Home</a>
+        <a class="navlink" href="/predict">Check Risk</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="eyebrow">Disaster preparedness · Machine Learning</div>
+      <h1 class="title">Know the flood chance<br>before the rain does.</h1>
+      <p class="subtitle">
+        Rising Waters turns monthly rainfall readings into an instant flood-risk
+        call, trained on historical weather patterns so communities can prepare
+        ahead of the water, not after it.
+      </p>
+
+      <div class="gauge">
+        <div class="fill" style="height: 62%;"></div>
+        <div class="tick" style="bottom: 25%;"></div>
+        <div class="tick" style="bottom: 50%;"></div>
+        <div class="tick" style="bottom: 75%;"></div>
+        <div class="readout">
+          <div class="num">{{ accuracy }}%</div>
+          <div class="label">Model Accuracy</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 34px;">
+        <a class="btn btn-primary" href="/predict">Check flood risk →</a>
+      </div>
+    </section>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="num">{{ model_name }}</div>
+        <div class="lbl">Deployed model</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">13</div>
+        <div class="lbl">Rainfall features per reading</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">4</div>
+        <div class="lbl">Classifiers compared during training</div>
+      </div>
+    </div>
+
+    <div class="pipeline">
+      <h2>How a prediction gets made</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="idx">01</div>
+          <div class="body">
+            <h3>Enter monthly rainfall</h3>
+            <p>You provide rainfall (mm) for each month — the same shape of data collected from weather stations.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="idx">02</div>
+          <div class="body">
+            <h3>Features are scaled</h3>
+            <p>Inputs pass through the same StandardScaler fit during training, so the model sees numbers on familiar ground.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="idx">03</div>
+          <div class="body">
+            <h3>{{ model_name }} scores the risk</h3>
+            <p>The classifier that performed best across Decision Tree, Random Forest, KNN and XGBoost comparisons makes the call.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="idx">04</div>
+          <div class="body">
+            <h3>You get a clear result</h3>
+            <p>A flood-chance or no-flood-chance page, with a confidence score and practical next steps.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>Rising Waters — a Machine Learning flood prediction project · Python · Flask · scikit-learn · XGBoost</footer>
+  </div>
+</body>
+</html>

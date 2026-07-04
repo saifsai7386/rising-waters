@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flood Chance Detected — Rising Waters</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav">
+      <div class="brand"><span class="mark"></span> Rising Waters</div>
+      <div>
+        <a class="navlink" href="/">Home</a>
+        <a class="navlink" href="/predict">Check Risk</a>
+      </div>
+    </nav>
+
+    <section class="result-wrap">
+      <span class="badge risk">Flood chance</span>
+
+      <div class="gauge risk" style="margin-bottom: 30px;">
+        <div class="fill" style="height: {{ confidence }}%;"></div>
+        <div class="readout">
+          <div class="num">{{ confidence }}%</div>
+          <div class="label">Model confidence</div>
+        </div>
+      </div>
+
+      <h1 class="result-headline">These readings point to a flood risk.</h1>
+      <p class="result-sub">
+        {{ model_name }} flagged this rainfall pattern as flood-prone based on
+        monsoon-month intensity and annual totals. Treat this as an early
+        signal, not a certainty — confirm with local authorities and official
+        weather advisories.
+      </p>
+
+      <div class="advice-panel">
+        <h3>Suggested next steps</h3>
+        <ul>
+          <li>Check the latest bulletin from your local meteorological or disaster-management department.</li>
+          <li>Move important documents, electronics, and valuables above expected water lines.</li>
+          <li>Review evacuation routes and keep an emergency kit accessible.</li>
+          <li>Stay alert for updates — rainfall conditions can change quickly during monsoon peaks.</li>
+        </ul>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            {% for month in ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"] %}
+              <th>{{ month }}</th>
+            {% endfor %}
+            <th>ANNUAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% for month in ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"] %}
+              <td>{{ inputs[month] }}</td>
+            {% endfor %}
+            <td>{{ inputs["ANNUAL"] }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <a class="btn btn-primary" href="/predict">Run another check →</a>
+    </section>
+
+    <footer>Rising Waters — a Machine Learning flood prediction project · Python · Flask · scikit-learn · XGBoost</footer>
+  </div>
+</body>
+</html>
