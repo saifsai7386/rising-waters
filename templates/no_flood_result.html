@@ -20,9 +20,9 @@
       <span class="badge safe">No flood chance</span>
 
       <div class="gauge safe" style="margin-bottom: 30px;">
-        <div class="fill" style="height: {{ confidence }}%;"></div>
+        <div class="fill" style="height: {{ confidence|round(2) }}%;"></div>
         <div class="readout">
-          <div class="num">{{ confidence }}%</div>
+          <div class="num">{{ confidence|round(2) }}%</div>
           <div class="label">Model confidence</div>
         </div>
       </div>
@@ -34,13 +34,16 @@
         back if forecasts change.
       </p>
 
-      <div class="advice-panel">
-        <h3>Good practice either way</h3>
-        <ul>
-          <li>Keep an eye on official rainfall forecasts through the season.</li>
-          <li>Ensure drainage around your property is clear ahead of heavier months.</li>
-          <li>Re-run this check if new rainfall data comes in for the month.</li>
-        </ul>
+      <div class="advice-panel recommendation-panel">
+        <h3>Next step</h3>
+        <p>{{ recommendation }}</p>
+      </div>
+
+      <div class="advice-panel summary-panel">
+        <h3>Prediction summary</h3>
+        <p><strong>Risk band:</strong> {{ risk_band }}</p>
+        <p><strong>Peak rainfall:</strong> {{ rainfall_summary.peak_month }} at {{ rainfall_summary.peak_value }} mm</p>
+        <p><strong>Lowest rainfall:</strong> {{ rainfall_summary.lowest_month }} at {{ rainfall_summary.lowest_value }} mm</p>
       </div>
 
       <table class="data-table">

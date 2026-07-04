@@ -85,11 +85,11 @@ a { color: var(--water-bright); text-decoration: none; }
 .gauge {
   position: relative;
   width: 100%;
-  max-width: 340px;
+  max-width: 300px;
   height: 200px;
   margin: 0 auto;
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 18px;
   background: var(--panel);
   overflow: hidden;
 }
@@ -132,13 +132,17 @@ a { color: var(--water-bright); text-decoration: none; }
   justify-content: center;
   flex-direction: column;
   z-index: 2;
+  padding: 10px;
 }
 
 .gauge .readout .num {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-  font-size: 2.6rem;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.45);
+  font-size: clamp(1.9rem, 5vw, 2.8rem);
+  line-height: 1;
+  max-width: 100%;
+  word-break: break-word;
+  text-shadow: 0 2px 15px rgba(0,0,0,0.45);
 }
 
 .gauge .readout .label {
@@ -434,6 +438,94 @@ footer {
   padding: 30px 0 50px;
   border-top: 1px solid var(--line);
   margin-top: 40px;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.history-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.recommendation-panel {
+  background: rgba(95,208,227,0.08);
+  border: 1px solid rgba(95,208,227,0.22);
+  color: #EAF2F4;
+}
+
+.recommendation-panel p {
+  margin: 0;
+  color: var(--text-dim);
+}
+
+.history-panel,
+.summary-panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 30px 0;
+}
+
+.history-panel h2,
+.summary-panel h3 {
+  margin: 0 0 16px;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.history-list {
+  display: grid;
+  gap: 12px;
+}
+
+.history-item {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+}
+
+.history-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.92rem;
+  color: var(--text-dim);
+}
+
+.history-item .history-label {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.history-badge {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.history-badge.risk { background: rgba(232,162,61,0.15); color: #f4c06a; }
+.history-badge.safe { background: rgba(76,175,125,0.18); color: #7fe3ac; }
+
+.history-summary {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+.summary-panel p {
+  margin: 12px 0 0;
+  font-size: 0.95rem;
+  color: var(--text-dim);
 }
 
 @media (max-width: 600px) {

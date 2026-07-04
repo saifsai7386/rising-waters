@@ -20,9 +20,9 @@
       <span class="badge risk">Flood chance</span>
 
       <div class="gauge risk" style="margin-bottom: 30px;">
-        <div class="fill" style="height: {{ confidence }}%;"></div>
+        <div class="fill" style="height: {{ confidence|round(2) }}%;"></div>
         <div class="readout">
-          <div class="num">{{ confidence }}%</div>
+          <div class="num">{{ confidence|round(2) }}%</div>
           <div class="label">Model confidence</div>
         </div>
       </div>
@@ -35,14 +35,16 @@
         weather advisories.
       </p>
 
-      <div class="advice-panel">
-        <h3>Suggested next steps</h3>
-        <ul>
-          <li>Check the latest bulletin from your local meteorological or disaster-management department.</li>
-          <li>Move important documents, electronics, and valuables above expected water lines.</li>
-          <li>Review evacuation routes and keep an emergency kit accessible.</li>
-          <li>Stay alert for updates — rainfall conditions can change quickly during monsoon peaks.</li>
-        </ul>
+      <div class="advice-panel recommendation-panel">
+        <h3>Next step</h3>
+        <p>{{ recommendation }}</p>
+      </div>
+
+      <div class="advice-panel summary-panel">
+        <h3>Prediction summary</h3>
+        <p><strong>Risk band:</strong> {{ risk_band }}</p>
+        <p><strong>Peak rainfall:</strong> {{ rainfall_summary.peak_month }} at {{ rainfall_summary.peak_value }} mm</p>
+        <p><strong>Lowest rainfall:</strong> {{ rainfall_summary.lowest_month }} at {{ rainfall_summary.lowest_value }} mm</p>
       </div>
 
       <table class="data-table">

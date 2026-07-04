@@ -47,14 +47,39 @@
         <div class="lbl">Deployed model</div>
       </div>
       <div class="stat-card">
-        <div class="num">13</div>
-        <div class="lbl">Rainfall features per reading</div>
+        <div class="num">{{ recent_count }}</div>
+        <div class="lbl">Recent checks this session</div>
       </div>
       <div class="stat-card">
         <div class="num">4</div>
         <div class="lbl">Classifiers compared during training</div>
       </div>
     </div>
+
+    {% if history %}
+    <div class="history-panel">
+      <div class="history-header">
+        <h2>Recent checks</h2>
+        <div class="history-actions">
+          <a class="btn btn-ghost" href="/download-history">Export history</a>
+          <a class="btn btn-ghost" href="/clear-history">Clear history</a>
+        </div>
+      </div>
+      <div class="history-list">
+        {% for item in history %}
+        <div class="history-item">
+          <div class="history-meta">
+            <span>{{ item.timestamp }}</span>
+            <span class="history-badge {{ 'risk' if item.prediction == 'Flood' else 'safe' }}">{{ item.prediction }}</span>
+          </div>
+          <div class="history-summary">
+            {{ item.risk_band }} risk · {{ item.confidence }}% confidence · annual {{ item.annual }} mm
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
 
     <div class="pipeline">
       <h2>How a prediction gets made</h2>
